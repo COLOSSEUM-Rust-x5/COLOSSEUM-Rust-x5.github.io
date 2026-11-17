@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="COLOSSEUM RUST x5 [ITA/EU]">
+<meta property="og:description" content="Server Rust modded x5 italiano ed europeo: PvP 24/7, Time Raid, shop a crediti, basi raidabili, convogli e chat tradotta in 11 lingue.">
+<meta name="keywords" content="Rust, server Rust italiano, Rust ITA, Rust x5, Rust modded, Rust EU, COLOSSEUM Rust, server Rust x5 italiano">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>COLOSSEUM Rust</title>
+<meta name="description" content="COLOSSEUM RUST: server Rust modded x5 italiano ed europeo. PvP sempre aperto 24/7, raid alle basi a orari, shop a crediti, basi raidabili, convogli con Bradley ed elicotteri, chat tradotta in 11 lingue.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: l'arena al tramonto. Facciata del Colosseo disegnata in apertura, poi sezioni come "gradoni" separati da fregi ad archi.
+   Look unico e voluto (pietra di travertino illuminata dal fuoco), lo stesso in tema chiaro e scuro. */
+:root{
+  --night:#120f0d;      /* cielo e ombra */
+  --stone:#2a231d;      /* pietra in ombra, pannelli */
+  --stone-2:#352c24;
+  --trav:#e6d9c2;       /* travertino illuminato: testo */
+  --trav-dim:#b5a68f;   /* testo secondario */
+  --ember:#e0662f;      /* fuoco, accento */
+  --gold:#d4a84f;       /* alloro, dettagli */
+  --line:#4a3e33;
+  --font-mark:"Cinzel", "Trajan Pro", Georgia, serif;
+  --font-head:"Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --font-body:"Barlow", "Segoe UI", Arial, sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--trav);font:16px/1.6 var(--font-body)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--ember)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;overflow:hidden;background:var(--night)}
+#arena{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-inner{position:relative;padding-block:18px 40px;display:grid;gap:22px;min-height:min(760px, 92svh);align-content:space-between}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;font:600 13px/1 var(--font-head);letter-spacing:.18em;text-transform:uppercase;color:var(--trav-dim)}
+.lang{display:flex;gap:4px}
+.lang button{font:inherit;letter-spacing:inherit;background:rgba(18,15,13,.55);color:var(--trav-dim);border:1px solid var(--line);padding:8px 11px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--trav);color:var(--night);border-color:var(--trav)}
+.title{display:grid;gap:14px;max-width:760px}
+.laurel{display:flex;align-items:center;gap:14px;font:600 14px/1 var(--font-head);letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.laurel svg{flex:0 0 auto}
+.mark{font:900 clamp(46px, 10vw, 118px)/.9 var(--font-mark);letter-spacing:.03em;color:var(--trav);text-shadow:0 2px 0 #000, 0 0 40px rgba(224,102,47,.35)}
+.mark small{display:block;font:700 clamp(17px,2.6vw,24px)/1.2 var(--font-mark);letter-spacing:.42em;margin-top:12px;color:var(--gold)}
+.lede{max-width:56ch;font-size:18px;color:var(--trav);text-shadow:0 1px 8px #000}
+.connect-box{display:grid;gap:10px;max-width:660px}
+.connect{display:flex;flex-wrap:wrap;border:1px solid rgba(230,217,194,.35);background:rgba(18,15,13,.72);backdrop-filter:blur(3px)}
+.connect code{flex:1 1 280px;min-width:0;padding:15px 16px;font:500 15px/1.4 var(--font-mono);overflow-wrap:anywhere;color:var(--trav)}
+.connect button,.btn{border:0;background:var(--ember);color:#1a0b04;font:700 15px/1 var(--font-head);letter-spacing:.16em;text-transform:uppercase;padding:15px 22px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.hint{font-size:14px;color:var(--trav-dim);max-width:62ch;text-shadow:0 1px 6px #000}
+.specs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid rgba(230,217,194,.25);background:linear-gradient(to bottom, rgba(18,15,13,.0), rgba(18,15,13,.75))}
+.spec{padding:16px 12px 4px 0;display:grid;gap:4px;min-width:0}
+.spec b{font:700 30px/1 var(--font-mark);font-variant-numeric:tabular-nums;color:var(--trav)}
+.spec span{font:600 12px/1.3 var(--font-head);letter-spacing:.16em;text-transform:uppercase;color:var(--trav-dim)}
+.spec.hot b{color:var(--ember)}
+
+/* ---------- FREGIO AD ARCHI ---------- */
+.frieze{display:block;width:100%;height:42px;color:var(--stone-2)}
+
+/* ---------- SEZIONI (gradoni) ---------- */
+section.tier-band{padding-block:60px}
+section.tier-band.alt{background:var(--stone)}
+.head{display:grid;gap:10px;margin-bottom:30px;max-width:720px}
+.latin{font:700 13px/1 var(--font-mark);letter-spacing:.38em;color:var(--gold)}
+.head h2{font:700 clamp(32px,5vw,50px)/1 var(--font-mark);letter-spacing:.02em;color:var(--trav)}
+.head p{color:var(--trav-dim);max-width:62ch}
+
+/* caratteristiche: blocchi di pietra */
+.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.feat{background:var(--stone);border:1px solid var(--line);padding:22px 22px 20px;display:grid;gap:9px;align-content:start;min-width:0;position:relative}
+.alt .feat{background:var(--stone-2)}
+.feat::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--line)}
+.feat.hot::before{background:var(--ember)}
+.feat h3{font:700 23px/1.1 var(--font-head);text-transform:uppercase;letter-spacing:.04em;color:var(--trav)}
+.feat p{color:var(--trav-dim);font-size:15px}
+.feat .cmd{font:500 13px/1.3 var(--font-mono);color:var(--gold)}
+.feat .hours{color:var(--trav);font:500 15px/1.6 var(--font-body);font-variant-numeric:tabular-nums}
+.feat .hours b{color:var(--gold);font-weight:600}
+
+/* eventi con illustrazioni */
+.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
+.event{min-width:0;background:var(--stone-2);border:1px solid var(--line);display:grid;grid-template-rows:auto 1fr}
+.event canvas{display:block;width:100%;aspect-ratio:16/8;max-width:100%;background:var(--night)}
+.event-body{padding:20px 22px 22px;display:grid;gap:8px;align-content:start}
+.event h3{font:700 26px/1.1 var(--font-mark);color:var(--trav)}
+.when{color:var(--trav-dim);font-size:15px;margin-bottom:6px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:10px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px/1 var(--font-head);letter-spacing:.16em;text-transform:uppercase;color:var(--trav-dim)}
+td.num,th.num{text-align:right}
+td.num{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap;color:var(--trav)}
+.lvl{display:inline-block;width:9px;height:9px;margin-right:9px;transform:rotate(45deg);background:var(--c);vertical-align:1px}
+
+/* regole: tavole di legge */
+.rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.rule{background:var(--stone);border:1px solid var(--line);padding:22px 18px;display:grid;gap:12px;justify-items:center;text-align:center;min-width:0}
+.rule b{font:900 34px/1 var(--font-mark);color:var(--gold)}
+.rule p{font-size:16px;color:var(--trav)}
+.pvp-note{margin-top:18px;padding:16px 18px;border:1px solid var(--ember);color:var(--trav);display:flex;gap:14px;align-items:flex-start}
+.pvp-note b{font:700 15px/1.4 var(--font-head);letter-spacing:.14em;text-transform:uppercase;color:var(--ember);white-space:nowrap}
+
+/* comandi */
+.cmds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 36px}
+.cmds div{display:grid;grid-template-columns:minmax(130px,auto) minmax(0,1fr);gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.cmds code{font:500 14px/1.5 var(--font-mono);color:var(--gold)}
+.cmds span{color:var(--trav-dim);font-size:15px}
+
+/* ingresso */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.step{display:grid;gap:8px;align-content:start;min-width:0}
+.step b{font:700 13px/1 var(--font-head);letter-spacing:.2em;text-transform:uppercase;color:var(--ember)}
+.step p{color:var(--trav-dim)}
+.step code{font:500 13px/1.5 var(--font-mono);color:var(--trav);overflow-wrap:anywhere}
+
+/* discord */
+.discord[hidden]{display:none}
+.discord{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;padding:26px;border:1px solid var(--gold);background:var(--stone)}
+.discord h3{font:700 28px/1.1 var(--font-mark);color:var(--trav)}
+.discord p{color:var(--trav-dim)}
+
+footer{padding-block:34px 50px;color:var(--trav-dim);font-size:14px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+[data-l]{display:none}
+html:not([lang="en"]) [data-l="it"], html[lang="en"] [data-l="en"]{display:revert}
+
+@media (max-width: 900px){
+  .features{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .events,.cmds{grid-template-columns:minmax(0,1fr)}
+  .rules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps{grid-template-columns:minmax(0,1fr)}
+  .specs{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width: 540px){
+  .features,.rules{grid-template-columns:minmax(0,1fr)}
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cmds div{grid-template-columns:minmax(0,1fr);gap:2px}
+  .connect button{flex:1 1 100%}
+  .lede{font-size:16px}
+}
+@media (prefers-reduced-motion: no-preference){
+  .connect button,.btn{transition:filter .15s}
+  .connect button:hover,.btn:hover{filter:brightness(1.12)}
+}
+</style>
+
+</head>
+<body>
+<header class="hero">
+  <canvas id="arena" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <div class="top">
+      <span>COLOSSEUM · Rust</span>
+      <div class="lang" role="group" aria-label="Lingua / Language">
+        <button type="button" id="btn-it" data-set="it" aria-pressed="true">IT</button>
+        <button type="button" id="btn-en" data-set="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+
+    <div class="title">
+      <p class="laurel">
+        <svg width="30" height="22" viewBox="0 0 30 22" aria-hidden="true"><g fill="currentColor"><path d="M15 21C9 19 4 14 3 6c3 3 6 6 12 15z"/><ellipse cx="5" cy="9" rx="3.2" ry="1.4" transform="rotate(-50 5 9)"/><ellipse cx="7" cy="14" rx="3.2" ry="1.4" transform="rotate(-30 7 14)"/><ellipse cx="10" cy="18" rx="3.2" ry="1.4" transform="rotate(-12 10 18)"/><ellipse cx="3.5" cy="4" rx="2.6" ry="1.2" transform="rotate(-75 3.5 4)"/></g></svg>
+        <span data-l="it">Server Rust modded · Italia ed Europa</span><span data-l="en">Modded Rust server · Italy &amp; Europe</span>
+      </p>
+      <h1 class="mark">COLOSSEUM<small>RUST · X5 · ITA/EU</small></h1>
+      <p class="lede">
+        <span data-l="it">Entra nell'arena: PvP sempre aperto, giorno e notte. Le basi dei giocatori si raidano solo a orari stabiliti, mentre basi NPC e convogli scortati da Bradley ed elicotteri ti aspettano a ogni ora.</span>
+        <span data-l="en">Step into the arena: PvP is always on, day and night. Player bases can only be raided at set hours, while NPC bases and convoys escorted by Bradleys and helicopters are waiting around the clock.</span>
+      </p>
+      <div class="connect-box">
+        <div class="connect">
+          <code id="connect-cmd">client.connect 194.50.234.156:28080</code>
+          <button type="button" id="copy"><span data-l="it">Copia</span><span data-l="en">Copy</span></button>
+        </div>
+        <p class="hint">
+          <span data-l="it">Apri Rust, premi F1, incolla il comando e premi Invio. Oppure cerca “COLOSSEUM” nella scheda Modded.</span>
+          <span data-l="en">Open Rust, press F1, paste the command and hit Enter. Or search “COLOSSEUM” in the Modded tab.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="specs">
+      <div class="spec hot"><b>24/7</b><span>PvP</span></div>
+      <div class="spec"><b>X5</b><span data-l="it">Raccolta</span><span data-l="en">Gather</span></div>
+      <div class="spec"><b>80</b><span data-l="it">Slot</span><span data-l="en">Slots</span></div>
+      <div class="spec"><b>I / M</b><span data-l="it">Wipe mensile</span><span data-l="en">Monthly wipe</span></div>
+      <div class="spec"><b>XI</b><span data-l="it">Lingue in chat</span><span data-l="en">Chat languages</span></div>
+    </div>
+  </div>
+</header>
+
+<svg class="frieze" viewBox="0 0 1200 42" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0 0H1200V42H1180V30Q1180 14 1165 14Q1150 14 1150 30V42H1130V30Q1130 14 1115 14Q1100 14 1100 30V42H1080V30Q1080 14 1065 14Q1050 14 1050 30V42H1030V30Q1030 14 1015 14Q1000 14 1000 30V42H980V30Q980 14 965 14Q950 14 950 30V42H930V30Q930 14 915 14Q900 14 900 30V42H880V30Q880 14 865 14Q850 14 850 30V42H830V30Q830 14 815 14Q800 14 800 30V42H780V30Q780 14 765 14Q750 14 750 30V42H730V30Q730 14 715 14Q700 14 700 30V42H680V30Q680 14 665 14Q650 14 650 30V42H630V30Q630 14 615 14Q600 14 600 30V42H580V30Q580 14 565 14Q550 14 550 30V42H530V30Q530 14 515 14Q500 14 500 30V42H480V30Q480 14 465 14Q450 14 450 30V42H430V30Q430 14 415 14Q400 14 400 30V42H380V30Q380 14 365 14Q350 14 350 30V42H330V30Q330 14 315 14Q300 14 300 30V42H280V30Q280 14 265 14Q250 14 250 30V42H230V30Q230 14 215 14Q200 14 200 30V42H180V30Q180 14 165 14Q150 14 150 30V42H130V30Q130 14 115 14Q100 14 100 30V42H80V30Q80 14 65 14Q50 14 50 30V42H30V30Q30 14 15 14Q0 14 0 30Z"/></svg>
+
+<main>
+  <section class="tier-band alt" id="arena-info">
+    <div class="wrap">
+      <div class="head">
+        <span class="latin">ARENA</span>
+        <h2><span data-l="it">Cosa trovi in arena</span><span data-l="en">What's in the arena</span></h2>
+        <p><span data-l="it">Raccolta e loot x5, scrap x10, craft istantaneo, mappa custom Gravel Pit 4000 e team fino a 4 giocatori. Dopo ogni wipe ufficiale ci sono 48 ore di protezione dai raid.</span><span data-l="en">x5 gather and loot, x10 scrap, instant crafting, the custom Gravel Pit 4000 map and teams of up to 4. After every official wipe there are 48 hours of raid protection.</span></p>
+      </div>
+      <div class="features">
+        <div class="feat hot">
+          <h3><span data-l="it">PvP sempre aperto</span><span data-l="en">PvP always on</span></h3>
+          <p><span data-l="it">Si combatte 24 ore su 24, ovunque in mappa: monumenti, strade, eventi e fuori dalle basi.</span><span data-l="en">Fighting is open 24 hours a day, anywhere on the map: monuments, roads, events and outside bases.</span></p>
+        </div>
+        <div class="feat">
+          <h3>Time Raid</h3>
+          <p><span data-l="it">Le basi dei giocatori si raidano solo in questi orari (ora italiana), così puoi staccare senza ritrovarti la base a terra.</span><span data-l="en">Player bases can only be raided during these hours (Italian time), so you can log off without losing everything.</span></p>
+          <p class="hours"><span data-l="it">Lun–Gio</span><span data-l="en">Mon–Thu</span> <b>18:00–23:00</b><br><span data-l="it">Ven 18:00 → Dom 23:00</span><span data-l="en">Fri 18:00 → Sun 23:00</span> <b><span data-l="it">no stop</span><span data-l="en">non-stop</span></b></p>
+        </div>
+        <div class="feat">
+          <h3><span data-l="it">Shop a crediti</span><span data-l="en">Credit shop</span></h3>
+          <p><span data-l="it">500 crediti per ogni ora di gioco, da spendere in mezzi, kit, elettronica, attrezzi ed eventi.</span><span data-l="en">500 credits for every hour played, to spend on vehicles, kits, electricity, tools and events.</span></p>
+          <span class="cmd">/shop · /saldo</span>
+        </div>
+        <div class="feat">
+          <h3><span data-l="it">Basi raidabili</span><span data-l="en">Raid bases</span></h3>
+          <p><span data-l="it">Basi NPC difese, cinque livelli da Facile a Nightmare. Una ogni 2 ore, oppure la compri.</span><span data-l="en">Defended NPC bases, five tiers from Easy to Nightmare. One every 2 hours, or buy your own.</span></p>
+          <span class="cmd">/raids</span>
+        </div>
+        <div class="feat">
+          <h3><span data-l="it">Chat tradotta</span><span data-l="en">Translated chat</span></h3>
+          <p><span data-l="it">Scegli la lingua in /info e ogni messaggio ti arriva già tradotto: italiano, inglese, russo, tedesco, francese, spagnolo e altre cinque.</span><span data-l="en">Pick your language in /info and every message reaches you already translated: Italian, English, Russian, German, French, Spanish and five more.</span></p>
+          <span class="cmd">/info</span>
+        </div>
+        <div class="feat">
+          <h3><span data-l="it">Qualità della vita</span><span data-l="en">Quality of life</span></h3>
+          <p><span data-l="it">Teletrasporti e case, zaino che resta alla morte, skin della base gratis, protezione per i nuovi arrivati.</span><span data-l="en">Teleports and homes, a backpack that survives death, free base skins, protection for newcomers.</span></p>
+          <span class="cmd">/tpr · /home · /bskin</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tier-band" id="ludi">
+    <div class="wrap">
+      <div class="head">
+        <span class="latin">LUDI</span>
+        <h2><span data-l="it">I giochi dell'arena</span><span data-l="en">The arena's games</span></h2>
+        <p><span data-l="it">Prezzi in crediti dello shop. Un solo evento di ogni tipo attivo alla volta, e la posizione viene annunciata in chat.</span><span data-l="en">Prices in shop credits. Only one event of each kind at a time, with its location announced in chat.</span></p>
+      </div>
+      <div class="events">
+        <article class="event">
+          <canvas id="art-base" aria-label="Illustrazione: base NPC sotto la cupola" role="img"></canvas>
+          <div class="event-body">
+            <h3><span data-l="it">Basi raidabili</span><span data-l="en">Raid bases</span></h3>
+            <p class="when"><span data-l="it">Automatiche ogni 2 ore · durata da 60 a 150 minuti · la cupola protegge chi l'ha comprata</span><span data-l="en">Automatic every 2 hours · last 60 to 150 minutes · the dome protects the buyer's team</span></p>
+            <table>
+              <thead><tr><th><span data-l="it">Livello</span><span data-l="en">Tier</span></th><th class="num"><span data-l="it">Crediti</span><span data-l="en">Credits</span></th></tr></thead>
+              <tbody>
+                <tr><td><i class="lvl" style="--c:#5fae7a"></i><span data-l="it">Facile</span><span data-l="en">Easy</span></td><td class="num">2.500</td></tr>
+                <tr><td><i class="lvl" style="--c:#d8b33a"></i><span data-l="it">Media</span><span data-l="en">Medium</span></td><td class="num">5.000</td></tr>
+                <tr><td><i class="lvl" style="--c:#e0802f"></i><span data-l="it">Difficile</span><span data-l="en">Hard</span></td><td class="num">8.000</td></tr>
+                <tr><td><i class="lvl" style="--c:#d6463a"></i>Expert</td><td class="num">12.000</td></tr>
+                <tr><td><i class="lvl" style="--c:#9c8f84"></i>Nightmare</td><td class="num">15.000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+        <article class="event">
+          <canvas id="art-convoy" aria-label="Illustrazione: convoglio con Bradley ed elicottero" role="img"></canvas>
+          <div class="event-body">
+            <h3><span data-l="it">Convogli</span><span data-l="en">Convoys</span></h3>
+            <p class="when"><span data-l="it">Automatici ogni 2 ore e mezza · colonne di mezzi scortate lungo le strade</span><span data-l="en">Automatic every 2.5 hours · escorted vehicle columns along the roads</span></p>
+            <table>
+              <thead><tr><th><span data-l="it">Livello</span><span data-l="en">Tier</span></th><th><span data-l="it">Scorta</span><span data-l="en">Escort</span></th><th class="num"><span data-l="it">Crediti</span><span data-l="en">Credits</span></th></tr></thead>
+              <tbody>
+                <tr><td><i class="lvl" style="--c:#5fae7a"></i>Easy</td><td><span data-l="it">Moto e furgoni, scorta leggera</span><span data-l="en">Bikes and vans, light escort</span></td><td class="num">2.500</td></tr>
+                <tr><td><i class="lvl" style="--c:#d8b33a"></i>Medium</td><td><span data-l="it">Bradley, elicottero, lanciagranate</span><span data-l="en">Bradley, helicopter, grenadiers</span></td><td class="num">5.000</td></tr>
+                <tr><td><i class="lvl" style="--c:#e0802f"></i>Hard</td><td><span data-l="it">Più Bradley, cecchini, lanciarazzi</span><span data-l="en">More Bradleys, snipers, rockets</span></td><td class="num">7.000</td></tr>
+                <tr><td><i class="lvl" style="--c:#9c8f84"></i>Master</td><td><span data-l="it">Colonna intera, due elicotteri</span><span data-l="en">Full column, two helicopters</span></td><td class="num">10.000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="tier-band alt" id="lex">
+    <div class="wrap">
+      <div class="head">
+        <span class="latin">LEX ARENAE</span>
+        <h2><span data-l="it">Le regole dei raid</span><span data-l="en">Raid rules</span></h2>
+        <p><span data-l="it">Si raida per vincere, non per far smettere gli altri.</span><span data-l="en">Raid to win, not to make people quit.</span></p>
+      </div>
+      <div class="rules">
+        <div class="rule"><b>I</b><p><span data-l="it">Niente wipe completo delle basi</span><span data-l="en">No full base wipes</span></p></div>
+        <div class="rule"><b>II</b><p><span data-l="it">Non si raida fino alle fondamenta</span><span data-l="en">Don't raid down to the foundations</span></p></div>
+        <div class="rule"><b>III</b><p><span data-l="it">Un solo team per raid</span><span data-l="en">One team per raid</span></p></div>
+        <div class="rule"><b>IV</b><p><span data-l="it">Massimo 3 raid al giorno</span><span data-l="en">Maximum 3 raids per day</span></p></div>
+      </div>
+      <p class="pvp-note"><b>PvP 24/7</b><span><span data-l="it">Gli orari valgono solo per i raid alle basi dei giocatori. Combattere, saccheggiare i corpi e attaccare eventi e basi NPC è sempre permesso.</span><span data-l="en">Hours only apply to raiding player bases. Fighting, looting bodies and attacking events and NPC bases is always allowed.</span></span></p>
+    </div>
+  </section>
+
+  <section class="tier-band" id="imperata">
+    <div class="wrap">
+      <div class="head">
+        <span class="latin">IMPERATA</span>
+        <h2><span data-l="it">Comandi utili</span><span data-l="en">Useful commands</span></h2>
+      </div>
+      <div class="cmds">
+        <div><code>/info</code><span data-l="it">Benvenuto, regole e lingua</span><span data-l="en">Welcome, rules and language</span></div>
+        <div><code>/shop</code><span data-l="it">Shop, mezzi ed eventi</span><span data-l="en">Shop, vehicles and events</span></div>
+        <div><code>/kit</code><span data-l="it">Menu dei kit</span><span data-l="en">Kit menu</span></div>
+        <div><code>/raids</code><span data-l="it">Basi raidabili acquistabili</span><span data-l="en">Purchasable raid bases</span></div>
+        <div><code>/tpr NOME</code><span data-l="it">Teletrasporto da un giocatore</span><span data-l="en">Teleport to a player</span></div>
+        <div><code>/home add NOME</code><span data-l="it">Salva una casa</span><span data-l="en">Save a home</span></div>
+        <div><code>/backpack</code><span data-l="it">Zaino del server</span><span data-l="en">Server backpack</span></div>
+        <div><code>/bskin</code><span data-l="it">Skin della base</span><span data-l="en">Base skins</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tier-band alt" id="porta">
+    <div class="wrap">
+      <div class="head">
+        <span class="latin">PORTA TRIUMPHALIS</span>
+        <h2><span data-l="it">Come entrare</span><span data-l="en">How to join</span></h2>
+      </div>
+      <div class="steps">
+        <div class="step"><b><span data-l="it">Dalla console</span><span data-l="en">From the console</span></b><p><span data-l="it">Premi F1 in Rust e incolla </span><span data-l="en">Press F1 in Rust and paste </span><code>client.connect 194.50.234.156:28080</code></p></div>
+        <div class="step"><b><span data-l="it">Dalla lista server</span><span data-l="en">From the server list</span></b><p><span data-l="it">Gioca → Trova server → scheda Modded, poi cerca “COLOSSEUM” e aggiungilo ai preferiti.</span><span data-l="en">Play → Find a server → Modded tab, then search “COLOSSEUM” and add it to your favourites.</span></p></div>
+        <div class="step"><b><span data-l="it">Appena entrato</span><span data-l="en">Once inside</span></b><p><span data-l="it">Scrivi /info, scegli la tua lingua e leggi le regole. I nuovi arrivati hanno una protezione iniziale.</span><span data-l="en">Type /info, pick your language and read the rules. Newcomers get starting protection.</span></p></div>
+      </div>
+      <div class="discord" id="discord" hidden style="margin-top:34px">
+        <div>
+          <h3><span data-l="it">Discord e social</span><span data-l="en">Discord and socials</span></h3>
+          <p><span data-l="it">Annunci dei wipe, orari dei raid, segnalazioni e ricerca di compagni di team. Clip ed eventi su TikTok.</span><span data-l="en">Wipe announcements, raid hours, reports and finding teammates. Clips and events on TikTok.</span></p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a class="btn" id="discord-link" href="#" target="_blank" rel="noopener"><span data-l="it">Entra nel Discord</span><span data-l="en">Join the Discord</span></a>
+          <a class="btn" style="background:transparent;color:var(--trav);border:1px solid var(--trav-dim)" href="https://www.tiktok.com/@colosseumrustx5" target="_blank" rel="noopener">TikTok</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>COLOSSEUM RUST [x5] [ITA/EU] [Time Raid]</span>
+    <span><span data-l="it">Server non ufficiale, non affiliato a Facepunch Studios.</span><span data-l="en">Unofficial server, not affiliated with Facepunch Studios.</span></span>
+  </div>
+</footer>
+
+<script>
+/* Link d'invito Discord: inseriscilo qui e il riquadro compare da solo. */
+var DISCORD_INVITE = "https://discord.gg/UzaYQys2EU";
+
+(function(){
+  var root=document.documentElement;
+  function setLang(l){
+    root.setAttribute('lang',l);
+    document.getElementById('btn-it').setAttribute('aria-pressed', String(l==='it'));
+    document.getElementById('btn-en').setAttribute('aria-pressed', String(l==='en'));
+    try{localStorage.setItem('colosseum-lang',l)}catch(e){}
+  }
+  var saved=null;try{saved=localStorage.getItem('colosseum-lang')}catch(e){}
+  if(!saved){saved=(navigator.language||'it').toLowerCase().indexOf('it')===0?'it':'en'}
+  setLang(saved==='en'?'en':'it');
+  document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-set'))})});
+
+  if(DISCORD_INVITE){var d=document.getElementById('discord');document.getElementById('discord-link').href=DISCORD_INVITE;d.hidden=false}
+
+  var btn=document.getElementById('copy'),cmd=document.getElementById('connect-cmd');
+  var label=btn.innerHTML;
+  btn.addEventListener('click',function(){
+    var text=cmd.textContent.trim();
+    var done=function(){btn.textContent=root.getAttribute('lang')==='en'?'Copied':'Copiato';setTimeout(function(){btn.innerHTML=label},1600)};
+    var select=function(){var r=document.createRange();r.selectNodeContents(cmd);var s=getSelection();s.removeAllRanges();s.addRange(r)};
+    try{navigator.clipboard.writeText(text).then(done,select)}catch(e){select()}
+  });
+})();
+
+/* ---------- Disegni: Colosseo al tramonto, base NPC, convoglio ---------- */
+(function(){
+  var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function setup(c){var r=c.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2);c.width=Math.max(1,Math.round(r.width*d));c.height=Math.max(1,Math.round(r.height*d));var x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);return {x:x,w:r.width,h:r.height}}
+  function rnd(s){return function(){s=(s*9301+49297)%233280;return s/233280}}
+
+  /* --- COLOSSEO --- */
+  var hero=document.getElementById('arena'),scene=null,sparks=[];
+  function drawColosseum(){
+    var o=setup(hero),x=o.x,w=o.w,h=o.h;
+    var off=document.createElement('canvas');off.width=hero.width;off.height=hero.height;var c=off.getContext('2d');c.setTransform(hero.width/w,0,0,hero.height/h,0,0);
+    // cielo
+    var sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#0d0a09');sky.addColorStop(.55,'#2a1309');sky.addColorStop(.8,'#5a2410');sky.addColorStop(1,'#120f0d');
+    c.fillStyle=sky;c.fillRect(0,0,w,h);
+    var R=rnd(7);for(var i=0;i<70;i++){c.fillStyle='rgba(230,217,194,'+(.15+R()*.45)+')';c.fillRect(R()*w,R()*h*.45,1.2,1.2)}
+    // bagliore del fuoco dietro l'arena
+    var cx=w*(w>760?.74:.5),G=h*.93;
+    var glow=c.createRadialGradient(cx,G-h*.18,10,cx,G-h*.18,Math.max(w,h)*.6);glow.addColorStop(0,'rgba(240,120,50,.55)');glow.addColorStop(.4,'rgba(200,70,25,.18)');glow.addColorStop(1,'rgba(0,0,0,0)');
+    c.fillStyle=glow;c.fillRect(0,0,w,h);
+    // facciata ellittica
+    var Rx=Math.min(w*(w>760?.4:.62),620),H=Math.min(h*(w>760?.5:.42),400),N=w>760?30:20,span=1.22;
+    var tiersH=[.27,.25,.24,.14];
+    for(var k=0;k<N;k++){
+      var t0=-span+2*span*k/N,t1=-span+2*span*(k+1)/N,tm=(t0+t1)/2;
+      var x0=cx+Rx*Math.sin(t0),x1=cx+Rx*Math.sin(t1),bw=x1-x0;
+      var lift=(1-Math.cos(tm))*h*.07,base=G-lift,depth=Math.cos(tm);
+      var ruined=k>N*.7?(k>N*.86?2:3):4;
+      var y=base;
+      for(var tI=0;tI<ruined;tI++){
+        var th=H*tiersH[tI]*(.8+.2*depth),top=y-th;
+        if(tI===ruined-1&&ruined<4){top+= (k%2?th*.35:th*.15)}
+        var lum=Math.round(120+105*depth- tI*8);
+        var stone='rgb('+lum+','+Math.round(lum*.86)+','+Math.round(lum*.68)+')';
+        c.fillStyle=stone;c.fillRect(x0-.5,top,bw+1,y-top);
+        // cornice
+        c.fillStyle='rgba(0,0,0,.28)';c.fillRect(x0-.5,top,bw+1,Math.max(1.5,th*.06));
+        if(tI<3){
+          var aw=bw*.56,ax=x0+(bw-aw)/2,ab=y-th*.08,at=top+th*.22+aw/2;
+          if(ab>at){
+            var inner=c.createLinearGradient(0,at-aw/2,0,ab);
+            inner.addColorStop(0,'rgba(20,10,6,.95)');inner.addColorStop(1,tI===0?'rgba(255,140,60,.9)':'rgba(190,70,25,.75)');
+            c.fillStyle=inner;c.beginPath();c.moveTo(ax,ab);c.lineTo(ax,at);c.arc(ax+aw/2,at,aw/2,Math.PI,0);c.lineTo(ax+aw,ab);c.closePath();c.fill();
+          }
+          // semicolonna
+          c.fillStyle='rgba(255,235,200,'+(.06+.1*depth)+')';c.fillRect(x0+bw*.06,top+th*.1,Math.max(1,bw*.07),th*.85);
+        }else{
+          // attico con finestrelle
+          c.fillStyle='rgba(30,15,8,.8)';var ww=bw*.22;c.fillRect(x0+(bw-ww)/2,top+th*.35,ww,th*.28);
+        }
+        y=top;
+      }
+      // bordo frastagliato della rovina
+      if(ruined<4){c.fillStyle='#120f0d';for(var j=0;j<3;j++){c.fillRect(x0+R()*bw,y-2,2+R()*4,3+R()*6)}}
+    }
+    // terreno
+    var gr=c.createLinearGradient(0,G-20,0,h);gr.addColorStop(0,'rgba(18,15,13,0)');gr.addColorStop(.4,'#120f0d');c.fillStyle=gr;c.fillRect(0,G-20,w,h-G+20);
+    // velatura per leggibilità del testo a sinistra
+    var veil=c.createLinearGradient(0,0,w,0);veil.addColorStop(0,'rgba(18,15,13,.9)');veil.addColorStop(w>760?.42:1,'rgba(18,15,13,'+(w>760?'.6':'.62')+')');veil.addColorStop(w>760?.62:1,'rgba(18,15,13,'+(w>760?'.08':'.62')+')');c.fillStyle=veil;c.fillRect(0,0,w,h);
+    scene={off:off,x:x,w:w,h:h,cx:cx,G:G,Rx:Rx};
+    sparks=[];for(var s=0;s<(w>760?70:40);s++)sparks.push(newSpark(true));
+    cancelAnimationFrame(raf);frame();
+  }
+  function newSpark(init){var S=scene;return {x:S.cx+(Math.random()-.5)*S.Rx*1.4,y:init?S.G-Math.random()*S.h*.7:S.G-10,v:.25+Math.random()*.7,dr:(Math.random()-.5)*.4,a:.4+Math.random()*.6,r:.8+Math.random()*1.6}}
+  function frame(){
+    var S=scene;if(!S)return;var x=S.x;
+    x.setTransform(1,0,0,1,0,0);x.drawImage(S.off,0,0);var d=hero.width/S.w;x.setTransform(d,0,0,d,0,0);
+    for(var i=0;i<sparks.length;i++){var p=sparks[i];
+      x.fillStyle='rgba(255,'+Math.round(120+p.a*80)+',60,'+(p.a*Math.min(1,(p.y)/(S.h*.4)))+')';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();
+      if(!reduce){p.y-=p.v;p.x+=p.dr+Math.sin(p.y*.02)*.2;if(p.y<S.h*.05)sparks[i]=newSpark(false)}}
+    if(!reduce)raf=requestAnimationFrame(frame);
+  }
+  var raf=0;
+
+  /* --- BASE NPC SOTTO LA CUPOLA --- */
+  function drawBase(){
+    var c0=document.getElementById('art-base'),o=setup(c0),c=o.x,w=o.w,h=o.h;
+    var g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#1a1310');g.addColorStop(.7,'#4a2414');g.addColorStop(1,'#120f0d');c.fillStyle=g;c.fillRect(0,0,w,h);
+    var gy=h*.82,bx=w*.5;
+    // colline
+    c.fillStyle='#1c1612';c.beginPath();c.moveTo(0,gy);c.quadraticCurveTo(w*.25,gy-h*.12,w*.5,gy-h*.02);c.quadraticCurveTo(w*.8,gy+h*.04,w,gy-h*.1);c.lineTo(w,h);c.lineTo(0,h);c.fill();
+    // base a torre
+    var bw=w*.26,bh=h*.42;c.fillStyle='#2e2621';c.fillRect(bx-bw/2,gy-bh,bw,bh);
+    c.fillStyle='#3a312a';c.fillRect(bx-bw*.32,gy-bh*1.28,bw*.64,bh*.3);
+    for(var i=0;i<3;i++)for(var j=0;j<3;j++){c.fillStyle='rgba(255,150,70,.7)';c.fillRect(bx-bw/2+bw*(.15+.3*i),gy-bh+bh*(.18+.28*j),bw*.08,bh*.08)}
+    // torrette
+    c.fillStyle='#14100d';[-.42,.42].forEach(function(f){c.fillRect(bx+bw*f-6,gy-bh-10,12,10);c.fillRect(bx+bw*f,gy-bh-8,14,3)});
+    // mura esterne
+    c.fillStyle='#241d18';for(var k=0;k<9;k++){var px=bx-w*.36+k*w*.09;c.beginPath();c.moveTo(px,gy);c.lineTo(px+w*.04,gy-h*.16);c.lineTo(px+w*.08,gy);c.fill()}
+    // cupola
+    var R=Math.min(w*.42,h*.78);var dg=c.createRadialGradient(bx,gy,R*.6,bx,gy,R);dg.addColorStop(0,'rgba(212,168,79,0)');dg.addColorStop(.92,'rgba(212,168,79,.18)');dg.addColorStop(1,'rgba(240,200,110,.55)');
+    c.fillStyle=dg;c.beginPath();c.arc(bx,gy,R,Math.PI,0);c.fill();
+    c.strokeStyle='rgba(240,200,110,.35)';c.lineWidth=1;for(var m=1;m<5;m++){c.beginPath();c.ellipse(bx,gy,R,R*m/5,0,Math.PI,0);c.stroke()}
+    // fumo
+    for(var s=0;s<5;s++){c.fillStyle='rgba(120,100,90,'+(.12-s*.02)+')';c.beginPath();c.arc(bx+s*10,gy-bh*1.3-s*18,10+s*6,0,7);c.fill()}
+  }
+
+  /* --- CONVOGLIO --- */
+  function drawConvoy(){
+    var c0=document.getElementById('art-convoy'),o=setup(c0),c=o.x,w=o.w,h=o.h;
+    var g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#16110e');g.addColorStop(.62,'#5a2a12');g.addColorStop(.75,'#2a1a12');g.addColorStop(1,'#120f0d');c.fillStyle=g;c.fillRect(0,0,w,h);
+    var ry=h*.74;
+    // sole basso
+    c.fillStyle='rgba(240,130,60,.35)';c.beginPath();c.arc(w*.78,ry-h*.08,h*.16,0,7);c.fill();
+    // strada
+    c.fillStyle='#0f0c0a';c.beginPath();c.moveTo(0,ry+h*.04);c.lineTo(w,ry-h*.02);c.lineTo(w,ry+h*.1);c.lineTo(0,ry+h*.18);c.fill();
+    c.fillStyle='#120f0d';c.fillRect(0,ry+h*.12,w,h);
+    function yAt(xx){return ry+h*.04-(h*.06)*(xx/w)}
+    function wheels(xx,len,n,r){c.fillStyle='#050404';for(var i=0;i<n;i++){c.beginPath();c.arc(xx+len*(i+.5)/n,yAt(xx)+1,r,0,7);c.fill()}}
+    function truck(xx,s){var y=yAt(xx);c.fillStyle='#0a0807';c.fillRect(xx,y-22*s,48*s,16*s);c.fillRect(xx+48*s,y-17*s,14*s,11*s);wheels(xx,62*s,3,4*s)}
+    function bradley(xx,s){var y=yAt(xx);c.fillStyle='#0a0807';c.beginPath();c.moveTo(xx,y-6*s);c.lineTo(xx+6*s,y-18*s);c.lineTo(xx+58*s,y-18*s);c.lineTo(xx+64*s,y-6*s);c.closePath();c.fill();c.fillRect(xx+20*s,y-26*s,22*s,9*s);c.fillRect(xx+42*s,y-23*s,30*s,3*s);c.fillRect(xx,y-7*s,64*s,6*s)}
+    function bike(xx,s){var y=yAt(xx);c.fillStyle='#0a0807';c.fillRect(xx,y-9*s,16*s,4*s);c.fillRect(xx+5*s,y-16*s,4*s,8*s);wheels(xx,16*s,2,3.5*s)}
+    var s=Math.max(.7,Math.min(1.3,w/520));
+    bike(w*.06,s);truck(w*.16,s);bradley(w*.38,s);truck(w*.6,s);bike(w*.82,s);
+    // polvere
+    for(var d=0;d<14;d++){c.fillStyle='rgba(160,110,80,'+(.06+Math.random()*.06)+')';c.beginPath();c.arc(Math.random()*w,yAt(w/2)-6-Math.random()*20,6+Math.random()*16,0,7);c.fill()}
+    // elicottero
+    var hx=w*.36,hy=h*.26;c.fillStyle='#0a0807';c.beginPath();c.ellipse(hx,hy,26*s,10*s,0,0,7);c.fill();
+    c.fillRect(hx+18*s,hy-3*s,40*s,5*s);c.fillRect(hx+56*s,hy-11*s,4*s,14*s);c.fillRect(hx-3*s,hy-15*s,6*s,6*s);
+    c.strokeStyle='rgba(10,8,7,.8)';c.lineWidth=2;c.beginPath();c.moveTo(hx-46*s,hy-15*s);c.lineTo(hx+46*s,hy-15*s);c.stroke();
+    c.fillRect(hx-14*s,hy+11*s,28*s,2*s);
+  }
+
+  function drawAll(){drawColosseum();drawBase();drawConvoy()}
+  var t;window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(drawAll,150)});
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(drawAll)}else{drawAll()}
+  drawAll();
+})();
+</script>
+
+</body>
+</html>
