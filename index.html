@@ -6,7 +6,8 @@
 <meta property="og:title" content="COLOSSEUM RUST x5 [ITA/EU]">
 <meta property="og:description" content="Server Rust modded x5 italiano ed europeo: PvP 24/7, Time Raid, shop a crediti, basi raidabili, convogli e chat tradotta in 12 lingue.">
 <meta name="keywords" content="Rust, server Rust italiano, Rust ITA, Rust x5, Rust modded, Rust EU, COLOSSEUM Rust, server Rust x5 italiano">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}footer .foot-links a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+</style>
 <title>COLOSSEUM Rust</title>
 <meta name="description" content="COLOSSEUM RUST: server Rust modded x5 italiano ed europeo. PvP sempre aperto 24/7, raid alle basi a orari, shop a crediti, basi raidabili, convogli con Bradley ed elicotteri, chat tradotta in 12 lingue.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
@@ -236,6 +237,11 @@ html:not([lang="en"]) [data-l="it"], html[lang="en"] [data-l="en"]{display:rever
           <p><span data-l="it">Teletrasporti e case, zaino che resta alla morte, skin della base gratis, protezione per i nuovi arrivati.</span><span data-l="en">Teleports and homes, a backpack that survives death, free base skins, protection for newcomers.</span></p>
           <span class="cmd">/tpr · /home · /bskin</span>
         </div>
+        <div class="feat hot" style="grid-column:1/-1">
+          <h3><span data-l="it">Vota e guadagna</span><span data-l="en">Vote and earn</span></h3>
+          <p><span data-l="it">Vota il server su rust-servers.net: <b>2.500 crediti</b> al primo voto e <b>500</b> per ogni voto successivo. Si vota una volta ogni 24 ore, poi scrivi /vote in gioco per ritirare.</span><span data-l="en">Vote for the server on rust-servers.net: <b>2,500 credits</b> for your first vote and <b>500</b> for every vote after. You can vote once every 24 hours, then type /vote in game to claim.</span></p>
+          <a class="cmd" href="https://rust-servers.net/server/178726/vote/" target="_blank" rel="noopener" style="text-decoration:none">/vote · <span data-l="it">vota ora</span><span data-l="en">vote now</span> →</a>
+        </div>
       </div>
     </div>
   </section>
@@ -317,6 +323,7 @@ html:not([lang="en"]) [data-l="it"], html[lang="en"] [data-l="en"]{display:rever
         <div><code>/home add NOME</code><span data-l="it">Salva una casa</span><span data-l="en">Save a home</span></div>
         <div><code>/backpack</code><span data-l="it">Zaino del server</span><span data-l="en">Server backpack</span></div>
         <div><code>/bskin</code><span data-l="it">Skin della base</span><span data-l="en">Base skins</span></div>
+        <div><code>/vote</code><span data-l="it">Vota e ritira i crediti</span><span data-l="en">Vote and claim credits</span></div>
       </div>
     </div>
   </section>
@@ -334,13 +341,15 @@ html:not([lang="en"]) [data-l="it"], html[lang="en"] [data-l="en"]{display:rever
       </div>
       <div class="discord" id="discord" hidden style="margin-top:34px">
         <div>
-          <h3><span data-l="it">Discord e social</span><span data-l="en">Discord and socials</span></h3>
-          <p><span data-l="it">Annunci dei wipe, orari dei raid, segnalazioni e ricerca di compagni di team. Clip ed eventi su TikTok.</span><span data-l="en">Wipe announcements, raid hours, reports and finding teammates. Clips and events on TikTok.</span></p>
+          <h3><span data-l="it">Discord, social e classifiche</span><span data-l="en">Discord, socials and rankings</span></h3>
+          <p><span data-l="it">Annunci dei wipe, orari dei raid e ricerca di compagni sul Discord, clip ed eventi su TikTok. Vota ogni giorno su rust-servers.net e guadagna crediti, e segui le statistiche live su BattleMetrics.</span><span data-l="en">Wipe announcements, raid hours and teammates on Discord, clips and events on TikTok. Vote every day on rust-servers.net to earn credits, and follow live stats on BattleMetrics.</span></p>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:10px">
-          <a class="btn" id="discord-link" href="#" target="_blank" rel="noopener"><span data-l="it">Entra nel Discord</span><span data-l="en">Join the Discord</span></a>
+          <a class="btn" id="discord-link" href="#" target="_blank" rel="noopener">Discord</a>
+          <a class="btn" href="https://rust-servers.net/server/178726/vote/" target="_blank" rel="noopener"><span data-l="it">🗳️ Vota il server</span><span data-l="en">🗳️ Vote for us</span></a>
           <a class="btn" style="background:transparent;color:var(--trav);border:1px solid var(--trav-dim)" href="https://www.tiktok.com/@colosseumrustx5" target="_blank" rel="noopener">TikTok</a>
-          <a class="btn" style="background:transparent;color:var(--trav);border:1px solid var(--trav-dim)" href="https://rust-servers.net/server/178726/vote/" target="_blank" rel="noopener"><span data-l="it">🗳️ Vota il server</span><span data-l="en">🗳️ Vote for us</span></a>
+          <a class="btn" style="background:transparent;color:var(--trav);border:1px solid var(--trav-dim)" href="https://rust-servers.net/server/178726/" target="_blank" rel="noopener">Rust-Servers.net</a>
+          <a class="btn" style="background:transparent;color:var(--trav);border:1px solid var(--trav-dim)" href="https://www.battlemetrics.com/servers/rust/42070821" target="_blank" rel="noopener">BattleMetrics</a>
         </div>
       </div>
     </div>
@@ -350,6 +359,7 @@ html:not([lang="en"]) [data-l="it"], html[lang="en"] [data-l="en"]{display:rever
 <footer>
   <div class="wrap">
     <span>COLOSSEUM RUST [x5] [ITA/EU] [Time Raid]</span>
+    <span class="foot-links"><a href="https://discord.gg/UzaYQys2EU" target="_blank" rel="noopener">Discord</a> · <a href="https://www.tiktok.com/@colosseumrustx5" target="_blank" rel="noopener">TikTok</a> · <a href="https://rust-servers.net/server/178726/vote/" target="_blank" rel="noopener"><span data-l="it">Vota</span><span data-l="en">Vote</span></a> · <a href="https://rust-servers.net/server/178726/" target="_blank" rel="noopener">Rust-Servers.net</a> · <a href="https://www.battlemetrics.com/servers/rust/42070821" target="_blank" rel="noopener">BattleMetrics</a></span>
     <span><span data-l="it">Server non ufficiale, non affiliato a Facepunch Studios.</span><span data-l="en">Unofficial server, not affiliated with Facepunch Studios.</span></span>
   </div>
 </footer>
